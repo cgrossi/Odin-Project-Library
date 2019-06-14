@@ -1,6 +1,11 @@
 <template>
   <div class="library">
-    <AddBook @childBook="addToCollection"/>
+    <button
+      v-if="!showForm"
+      @click="showForm = !showForm"
+      class="btn waves-effect waves-light indigo darken-2 add-book"
+    >New Book</button>
+    <AddBook v-if="showForm" @formShowEmit="showForm = false" @childBook="addToCollection"/>
     <div class="container book-collection">
       <div
         v-for="(book, index) in myLibrary"
@@ -23,7 +28,6 @@
 </template>
 
 <script>
-import Book from "@/constructors/book.js";
 import AddBook from "./AddBook";
 export default {
   name: "Library",
@@ -46,7 +50,8 @@ export default {
           read: true
         }
       ],
-      recieveChild: null
+      recieveChild: null,
+      showForm: false
     };
   },
   methods: {
@@ -84,6 +89,11 @@ h2 {
 h3 {
   font-size: 1.4rem;
   margin: 5px;
+}
+
+.add-book {
+  display: block;
+  margin: 5px auto;
 }
 
 .card-content {

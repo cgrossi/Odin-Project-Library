@@ -46,13 +46,16 @@ export default {
       author: null,
       pages: null,
       read: false,
-      book: null
+      book: null,
+      showForm: true
     };
   },
   methods: {
     addBook() {
       const thisBook = new Book(this.title, this.author, this.pages, this.read);
       this.book = thisBook;
+      this.showForm = false;
+      this.$emit("formShowEmit");
       this.$emit("childBook", this.book);
       this.clearFields();
     },
