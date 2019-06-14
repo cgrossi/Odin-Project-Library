@@ -28,6 +28,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: hsl(232, 63%, 40%);
-  margin-top: 30px;
+  margin-top: 20px;
 }
 </style>

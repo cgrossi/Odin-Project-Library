@@ -8,7 +8,7 @@
         class="card indigo darken-2 center-align"
       >
         <div class="card-content white-text">
-          <i class="material-icons delete">delete</i>
+          <i class="material-icons delete" @click="removeBook(index)">delete</i>
           <p class="title">Title:</p>
           <h2>{{ book.title }}</h2>
           <p class="author">Author:</p>
@@ -53,6 +53,9 @@ export default {
     addToCollection(payload) {
       this.myLibrary.push(payload);
       this.recieveChild = null;
+    },
+    removeBook(index) {
+      this.myLibrary = this.myLibrary.splice(index, 1);
     }
   }
 };
@@ -70,6 +73,7 @@ form button {
 }
 h1 {
   font-size: 1.5rem;
+  margin-top: 10px;
 }
 
 h2 {
@@ -91,6 +95,7 @@ h3 {
   font-size: 1.9rem;
   top: 15px;
   right: 15px;
+  cursor: pointer;
 }
 
 .book-collection {
