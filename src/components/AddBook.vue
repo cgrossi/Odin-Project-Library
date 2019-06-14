@@ -16,22 +16,21 @@
           <input type="number" class="validate" v-model="pages">
         </div>
 
-        <p>
+        <div class="switch center-align">
           <label>
-            <input id="true" value="true" v-model="read" name="group1" type="radio">
-            <span>True</span>
+            Have Not Read
+            <input type="checkbox" v-model="read">
+            <span class="lever"></span>
+            Have Read
           </label>
-        </p>
-        <p>
-          <label>
-            <input id="False" value="false" v-model="read" name="group1" type="radio">
-            <span>False</span>
-          </label>
-        </p>
-        <button class="btn waves-effect waves-light">
-          Submit
-          <i class="material-icons right">library_add</i>
-        </button>
+        </div>
+
+        <div id="submit">
+          <button class="btn waves-effect waves-light indigo darken-2">
+            Submit
+            <i class="material-icons right">library_add</i>
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -67,3 +66,28 @@ export default {
 };
 </script>
 
+<style>
+form button {
+  display: block !important;
+  margin-top: 30px !important;
+}
+
+.switch label input[type="checkbox"]:checked + .lever::after {
+  background-color: #303f9f;
+}
+
+.switch label input[type="checkbox"]:checked + .lever {
+  background-color: hsl(232, 54%, 85%);
+}
+
+input[type="checkbox"]:checked:not(:disabled) ~ .lever:active::before,
+input[type="checkbox"]:checked:not(:disabled).tabbed:focus ~ .lever::before {
+  background-color: hsla(232, 63%, 40%, 0.15);
+}
+
+input:focus {
+  border-bottom: 1px solid hsl(232, 63%, 40%) !important;
+  -webkit-box-shadow: 0 1px 0 0 hsl(232, 63%, 40%) !important;
+  box-shadow: 0 1px 0 0 hsl(232, 63%, 40%) !important;
+}
+</style>
