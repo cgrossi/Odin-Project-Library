@@ -60,7 +60,7 @@ export default {
       this.recieveChild = null;
     },
     removeBook(index) {
-      this.myLibrary = this.myLibrary.splice(index, 1);
+      this.myLibrary.splice(index, 1);
     }
   }
 };
