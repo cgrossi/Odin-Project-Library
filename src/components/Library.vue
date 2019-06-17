@@ -5,15 +5,11 @@
       @click="showForm = !showForm"
       class="btn waves-effect waves-light indigo darken-2 add-book"
     >New Book</button>
-    <AddBook v-if="showForm" @formShowEmit="showForm = false" @childBook="addToCollection"/>
+    <AddBook v-if="showForm" @formShowEmit="showForm = false"/>
     <div class="container book-collection">
-      <div
-        v-for="(book, index) in myLibrary"
-        :key="index"
-        class="card indigo darken-2 center-align"
-      >
+      <div v-for="book in myLibrary" :key="book.id" class="card indigo darken-2 center-align">
         <div class="card-content white-text">
-          <i class="material-icons delete" @click="removeBook(index)">delete</i>
+          <i class="material-icons delete" @click="removeBook(book.id)">delete</i>
           <p class="title">Title:</p>
           <h2>{{ book.title }}</h2>
           <p class="author">Author:</p>
@@ -29,6 +25,7 @@
 
 <script>
 import AddBook from "./AddBook";
+import db from "@/firebase/init.js";
 export default {
   name: "Library",
   components: {
@@ -36,32 +33,31 @@ export default {
   },
   data() {
     return {
-      myLibrary: [
-        {
-          title: "Harry Potter",
-          author: "J.K. Rowling",
-          pages: 345,
-          read: true
-        },
-        {
-          title: "Lord of the Rings",
-          author: "J.R.R. Tolkein",
-          pages: 795,
-          read: true
-        }
-      ],
-      recieveChild: null,
+      myLibrary: [],
       showForm: false
     };
   },
   methods: {
-    addToCollection(payload) {
-      this.myLibrary.push(payload);
-      this.recieveChild = null;
-    },
-    removeBook(index) {
-      this.myLibrary.splice(index, 1);
+    removeBook(id) {
+      // remove from firestore db then filter from local library array
+      db.collection("library")
+        .doc(id)
+        .delete()
+        .then(() => {
+          this.myLibrary = this.myLibrary.filter(el => el.id !== id);
+        });
     }
+  },
+  created() {
+    db.collection("library")
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          let book = doc.data();
+          book.id = doc.id;
+          this.myLibrary.push(book);
+        });
+      });
   }
 };
 </script>

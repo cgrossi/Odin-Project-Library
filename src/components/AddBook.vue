@@ -38,6 +38,7 @@
 
 <script>
 import Book from "@/constructors/book.js";
+import db from "@/firebase/init";
 export default {
   name: "Addbook",
   data() {
@@ -46,18 +47,27 @@ export default {
       author: null,
       pages: null,
       read: false,
-      book: null,
       showForm: true
     };
   },
   methods: {
     addBook() {
+      // use a constructor function to create book object
       const thisBook = new Book(this.title, this.author, this.pages, this.read);
-      this.book = thisBook;
-      this.showForm = false;
-      this.$emit("formShowEmit");
-      this.$emit("childBook", this.book);
-      this.clearFields();
+
+      // add book to database on firestore
+      db.collection("library")
+        .add({
+          title: thisBook.title,
+          author: thisBook.author,
+          pages: thisBook.pages,
+          read: thisBook.read
+        })
+        .then(() => {
+          this.showForm = false;
+          this.$emit("formShowEmit");
+          this.clearFields();
+        });
     },
     clearFields() {
       this.title = "";
