@@ -116,7 +116,7 @@ h3 {
 
 .book-collection .card {
   width: 250px;
-  height: 250px;
+  min-height: 250px;
 }
 
 .card .card-content p {
