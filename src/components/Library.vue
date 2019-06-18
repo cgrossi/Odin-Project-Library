@@ -5,7 +5,7 @@
       @click="showForm = !showForm"
       class="btn waves-effect waves-light indigo darken-2 add-book"
     >New Book</button>
-    <AddBook v-if="showForm" @formShowEmit="showForm = false"/>
+    <AddBook v-if="showForm" @formShowEmit="submit"/>
     <div class="container book-collection">
       <div v-for="book in myLibrary" :key="book.id" class="card indigo darken-2 center-align">
         <div class="card-content white-text">
@@ -46,6 +46,10 @@ export default {
         .then(() => {
           this.myLibrary = this.myLibrary.filter(el => el.id !== id);
         });
+    },
+    submit(data) {
+      this.showForm = false;
+      this.myLibrary.push(data);
     }
   },
   created() {

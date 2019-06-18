@@ -47,6 +47,7 @@ export default {
       author: null,
       pages: null,
       read: false,
+      book: null,
       showForm: true
     };
   },
@@ -54,7 +55,7 @@ export default {
     addBook() {
       // use a constructor function to create book object
       const thisBook = new Book(this.title, this.author, this.pages, this.read);
-
+      this.book = thisBook;
       // add book to database on firestore
       db.collection("library")
         .add({
@@ -65,7 +66,7 @@ export default {
         })
         .then(() => {
           this.showForm = false;
-          this.$emit("formShowEmit");
+          this.$emit("formShowEmit", this.book);
           this.clearFields();
         });
     },
@@ -74,6 +75,7 @@ export default {
       this.author = "";
       this.pages = null;
       this.read = false;
+      this.book = null;
     }
   }
 };
